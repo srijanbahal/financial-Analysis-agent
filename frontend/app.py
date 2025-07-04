@@ -2,6 +2,8 @@ import streamlit as st
 import sys
 import os
 import chromadb.utils.embedding_functions as ef
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from utils.apy_keys import get_google_api_key
 
 # Overwrite default embedding function
 ef.DefaultEmbeddingFunction = lambda: ef.ONNXMiniLM_L6_V2()
@@ -9,6 +11,10 @@ ef.DefaultEmbeddingFunction = lambda: ef.ONNXMiniLM_L6_V2()
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utils.ocr import extract_text_from_pdf
 from crew.financial_trading_crew import run_financial_trading_crew
+
+api_key = get_google_api_key()
+if api_key:
+    os.environ["GOOGLE_API_KEY"] = api_key
 
 st.title("Multi-Agent Financial Analysis Bot")
 
